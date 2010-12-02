@@ -17,10 +17,12 @@ fun! s:ToggleMouse()
 
     if &mouse == ""
         let &mouse = s:old_mouse
+        set number
         echo "Mouse is for Vim (" . &mouse . ")"
     else
         let s:old_mouse = &mouse
         let &mouse=""
+        set nonumber
         echo "Mouse is for terminal"
     endif
 endfunction
@@ -30,7 +32,7 @@ endfunction
 " remapped it already (or a mapping exists already for <F12>)
 if !exists("no_plugin_maps") && !exists("no_toggle_mouse_maps")
     if !hasmapto('<SID>ToggleMouse()')
-        noremap <F16> :call <SID>ToggleMouse()<CR>
-        inoremap <F16> <Esc>:call <SID>ToggleMouse()<CR>a
+        noremap <F3> :call <SID>ToggleMouse()<CR>
+        inoremap <F3> <Esc>:call <SID>ToggleMouse()<CR>a
     endif
 endif
