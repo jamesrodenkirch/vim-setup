@@ -1,78 +1,163 @@
+" vim settings
+" maintained by James Rodenkirch
+" https://github.com/jamesrodenkirch/vim-setup
+
+" ------------------------------------------------->>  general settings  <<-----
 set nocompatible
-set t_Co=256
 
-call pathogen#helptags()
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-let mapleader=","
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-
-
-
+" allow swapping buffers without saving
 set hidden
-set nowrap        " don't wrap lines
-set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set autoindent    " always set autoindenting on
-set copyindent    " copy the previous indentation on autoindenting
-set number        " always show line numbers
-set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-set showmatch     " set show matching parenthesis
-set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
-set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
-set hlsearch      " highlight search terms
-set incsearch     " show search matches as you type
-set history=1000         " remember more commands and search history
-set undolevels=1000      " use many muchos levels of undo
-set title                " change the terminal's title
-set visualbell           " don't beep
-set noerrorbells         " don't beep
+
+" don't wrap lines
+set nowrap
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" always set autoindenting on
+set autoindent
+
+" copy the previous indentation on autoindenting
+set copyindent
+
+" always show line numbers
+set number
+
+" use multiple of shiftwidth when indenting with '<' and '>'
+set shiftround
+
+" set show matching parenthesis
+set showmatch
+
+" ignore case when searching
+set ignorecase
+
+" ignore case if search pattern is all lowercase, case-sensitive otherwise
+set smartcase
+
+" insert tabs on the start of a line according to shiftwidth, not tabstop
+set smarttab
+
+" highlight search terms
+set hlsearch
+
+" show search matches as you type
+set incsearch
+
+" increase history and undo
+set history=1000
+set undolevels=1000
+
+" change the terminal's title
+set title
+
+" don't beep
+set visualbell
+set noerrorbells
+
+" no backup files
 set nobackup
+
+" no swap files
 set noswapfile
 
+" set keyboard shortcut leader
+let mapleader=","
+
+" file type detection
 filetype on
+
+" file type detection
 filetype plugin on
+
+" file type detection for indentation
 filetype indent on
 
-if &t_Co >= 256 || has("gui_running")
-   "colorscheme mustang
-   colorscheme molokai
-endif
-
-if &t_Co > 2 || has("gui_running")
-   " switch syntax highlighting on, when the terminal has colors
-   syntax on
-endif
-
-set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
-set mouse=a
-set pastetoggle=<F2>
-
-nmap ,n :NERDTreeClose<CR>:NERDTreeToggle<CR>
-nmap ,m :NERDTreeClose<CR>:NERDTreeFind<CR>
-nmap ,N :NERDTreeClose<CR>
-
-nmap ,b :TlistToggle<CR>
-
-set tags=tags;
-autocmd BufEnter ~/sites/oyas/* :setlocal tags+=~/sites/oyas/tags
-autocmd BufEnter ~/sites/orangegrove/* :setlocal tags+=~/sites/orangegrove/tags
+" visually mark long lines
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#393939
 match OverLength /\%81v.\+/
 
- let g:miniBufExplMapWindowNavVim = 1 
-  let g:miniBufExplMapWindowNavArrows = 1 
-  let g:miniBufExplMapCTabSwitchBufs = 1 
-  let g:miniBufExplModSelTarget = 1 
+" enable mouse
+set mouse=a
 
-
-map <C-c> "+y<CR>
-
-" on save any: trim trailing whitespace
+" trim whitespace on save
 autocmd! BufWrite * mark ' | silent! %s/\s\+$// | norm ''
+
+" turn on spell check
+:set spell
+
+
+
+" ----------------------------------------------------->>  tab settings  <<-----
+" number of columns per tab
+set tabstop=4
+
+" number of columns per indent
+set shiftwidth=4
+
+" use spaces instead of tabs
+set expandtab
+
+" show tab characters if used
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+
+
+" ---------------------------------------->>  color settings and scheme  <<-----
+" force 256 colors
+set t_Co=256
+
+" color scheme
+colorscheme molokai
+
+" allow syntax highlighting
+syntax on
+
+
+
+" ----------------------------------------------->>  keyboard shortcuts  <<-----
+" quick vimrc edit
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+
+" quick vimrc reload
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" show/hide nerd tree
+nmap ,n :NERDTreeToggle<CR>
+
+" show/hide file overview
+nmap ,b :TlistToggle<CR>
+
+" toggle paste mode
+set pastetoggle=,p
+
+" toggle mouse interaction
+nnoremap ,m :call ToggleMouse()<CR>
+function! ToggleMouse()
+  if &mouse == 'a'
+    set mouse=
+    echo "Mouse is for TERMINAL"
+  else
+    set mouse=a
+    echo "Mouse is for VIM"
+  endif
+endfunction
+
+" toggle spell check
+imap <Leader>s <C-o>:setlocal spell! spelllang=en_gb<CR>
+nmap <Leader>s :setlocal spell! spelllang=en_gb<CR>
+
+
+" ----------------------------------------------->>  miniBufExpl plugin  <<-----
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+
+
+" ----------------------------------------------------->>  ctags plugin  <<-----
+" set tags dir name
+set tags=tags;
