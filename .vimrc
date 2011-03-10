@@ -160,4 +160,4 @@ let g:miniBufExplModSelTarget = 1
 
 " ----------------------------------------------------->>  ctags plugin  <<-----
 " set tags dir name
-set tags=tags;
+set tags=tags;/
